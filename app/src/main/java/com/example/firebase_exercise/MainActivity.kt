@@ -1,10 +1,9 @@
-package com.example.firebasetutorial
+package com.example.firebase_exercise
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.firebasetutorial.databinding.ActivityMainBinding
+import com.example.firebase_exercise.databinding.ActivityMainBinding
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 

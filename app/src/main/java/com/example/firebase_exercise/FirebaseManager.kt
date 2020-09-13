@@ -1,7 +1,7 @@
-package com.example.firebasetutorial
+package com.example.firebase_exercise
 
 import android.util.Log
-import com.example.firebasetutorial.dagger_components.UserDatabase
+import com.example.firebase_exercise.dagger_components.UserDatabase
 import com.google.firebase.database.*
 import javax.inject.Inject
 

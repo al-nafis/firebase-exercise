@@ -1,6 +1,6 @@
-package com.example.firebasetutorial.dagger_components
+package com.example.firebase_exercise.dagger_components
 
-import com.example.firebasetutorial.MainApplication
+import com.example.firebase_exercise.MainApplication
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector

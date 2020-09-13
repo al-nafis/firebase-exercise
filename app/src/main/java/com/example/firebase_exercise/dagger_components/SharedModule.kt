@@ -1,4 +1,4 @@
-package com.example.firebasetutorial.dagger_components
+package com.example.firebase_exercise.dagger_components
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

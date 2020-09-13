@@ -1,4 +1,4 @@
-package com.example.firebasetutorial
+package com.example.firebase_exercise
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
