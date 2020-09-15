@@ -1,34 +1,33 @@
 package com.example.firebase_exercise
 
-import android.util.Log
 import com.example.firebase_exercise.dagger_components.UserDatabase
-import com.example.firebase_exercise.regular_database.UpdateCurrentUser
+import com.example.firebase_exercise.regular_database.UsersDataCallBack
 import com.google.firebase.database.*
 import javax.inject.Inject
 
 class FirebaseManager @Inject constructor(@UserDatabase private val databaseReference: DatabaseReference) {
 
-    fun listenToUsers(updateCurrentUser: UpdateCurrentUser) {
-        databaseReference.addValueEventListener(object : ValueEventListener {
+    fun addUser(newUser: User, usersDataCallBack: UsersDataCallBack) {
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                Log.d("ZARAH", error.message)
+                usersDataCallBack.onCancelled(error)
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val t: GenericTypeIndicator<HashMap<String, User>> =
-                        object : GenericTypeIndicator<HashMap<String, User>>() {}
-                    val map: HashMap<String, User> = snapshot.getValue(t) as HashMap<String, User>
-                    val list = mutableListOf<User>()
-                    map.forEach { user -> list.add(user.value) }
-                    updateCurrentUser.updateUserInfo(list)
+                    val t: GenericTypeIndicator<Map<String, User>> =
+                        object : GenericTypeIndicator<Map<String, User>>() {}
+                    val map = snapshot.getValue(t) as Map<String, User>
+                    for (user in map.values) {
+                        if (user.email == newUser.email) {
+                            usersDataCallBack.userExists()
+                            return
+                        }
+                    }
                 }
+                databaseReference.push().setValue(newUser)
+                usersDataCallBack.onSuccessAddingNewUser()
             }
         })
-    }
-
-    fun addUser(user: User) {
-        val idRef = user.email.replace(Regex("[.#$\\[\\]]"), "")
-        databaseReference.child(idRef).setValue(user)
     }
 }
