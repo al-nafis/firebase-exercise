@@ -1,23 +1,20 @@
 package com.example.firebase_exercise
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.firebase_exercise.databinding.ActivityMainBinding
-import dagger.android.AndroidInjection
-import javax.inject.Inject
+import com.example.firebase_exercise.regular_database.RegularActivity
 
-class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var manager: FirebaseManager
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
         val binding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.manager = manager
-        setContentView(R.layout.activity_main)
-        manager.onCreate()
+        binding.activity = this
+    }
+
+    fun launchRegularDatabase() {
+        startActivity(Intent(this, RegularActivity::class.java))
     }
 }
