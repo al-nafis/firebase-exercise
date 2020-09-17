@@ -1,11 +1,17 @@
-package com.example.firebase_exercise
+package com.example.firebase_exercise.regular_database
 
 import com.example.firebase_exercise.dagger_components.UserDatabase
-import com.example.firebase_exercise.regular_database.UsersDataCallBack
+import com.example.firebase_exercise.data.User
 import com.google.firebase.database.*
 import javax.inject.Inject
 
 class FirebaseManager @Inject constructor(@UserDatabase private val databaseReference: DatabaseReference) {
+
+    fun listenToUserDataChange(listener: ValueEventListener) =
+        databaseReference.addValueEventListener(listener)
+
+    fun removeListener(listener: ValueEventListener) =
+        databaseReference.removeEventListener(listener)
 
     fun addUser(newUser: User, usersDataCallBack: UsersDataCallBack) {
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {

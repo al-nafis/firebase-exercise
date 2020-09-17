@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.firebase_exercise.databinding.ActivityMainBinding
-import com.example.firebase_exercise.regular_database.RegularActivity
+import com.example.firebase_exercise.regular_database.add_user.RegularAddUserActivity
+import com.example.firebase_exercise.regular_database.viewer.RegularUserViewerActivity
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainActivity : BaseActivity() {
 
@@ -14,7 +16,10 @@ class MainActivity : BaseActivity() {
         binding.activity = this
     }
 
+    override fun getDisposable(): CompositeDisposable =
+        CompositeDisposable()
+
     fun launchRegularDatabase() {
-        startActivity(Intent(this, RegularActivity::class.java))
+        startActivity(Intent(this, RegularUserViewerActivity::class.java))
     }
 }

@@ -3,14 +3,14 @@
     <data>
         <variable
             name="model"
-            type="com.example.firebase_exercise.regular_database.RegularViewModel" />
+            type="com.example.firebase_exercise.regular_database.add_user.RegularAddUserViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.firebase_exercise.regular_database.RegularActivity">
+        tools:context="com.example.firebase_exercise.regular_database.add_user.RegularAddUserActivity">
 
         <EditText
             android:id="@+id/name"
