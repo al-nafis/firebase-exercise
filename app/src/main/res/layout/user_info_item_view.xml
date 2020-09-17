@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="user"
+            type="com.example.firebase_exercise.data.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{user.name}"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="User Name"/>
+
+        <TextView
+            android:id="@+id/user_age_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age: "
+            app:layout_constraintTop_toBottomOf="@id/user_name"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/user_age"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{user.age}"
+            app:layout_constraintTop_toTopOf="@id/user_age_title"
+            app:layout_constraintStart_toEndOf="@id/user_age_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="31"/>
+
+        <TextView
+            android:id="@+id/user_email_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Email: "
+            app:layout_constraintTop_toBottomOf="@id/user_age_title"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/user_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{user.email}"
+            app:layout_constraintTop_toTopOf="@id/user_email_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/user_email_title"
+            tools:text="abcd@gmail.com"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

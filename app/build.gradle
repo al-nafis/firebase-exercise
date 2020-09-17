@@ -39,6 +39,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    //recycler view
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+
     //dagger 2
     implementation 'com.google.dagger:dagger:2.24'
     kapt 'com.google.dagger:dagger-compiler:2.21'
@@ -50,4 +53,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx:19.4.0'
     implementation 'com.google.firebase:firebase-auth-ktx:19.3.2'
     implementation 'com.google.firebase:firebase-database:19.4.0'
+
+    //rx kotlin
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.0'
 }
