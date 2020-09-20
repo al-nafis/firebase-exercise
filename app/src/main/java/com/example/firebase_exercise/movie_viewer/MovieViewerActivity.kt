@@ -3,6 +3,7 @@ package com.example.firebase_exercise.movie_viewer
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.firebase_exercise.BaseActivity
+import com.example.firebase_exercise.MainActivity
 import com.example.firebase_exercise.R
 import com.example.firebase_exercise.databinding.ActivityMovieViewerBinding
 import com.example.firebase_exercise.add_movie.AddMovieActivity
@@ -28,5 +29,10 @@ class MovieViewerActivity : BaseActivity() {
             onNext = { if (it) launchActivity(AddMovieActivity::class) },
             onError = { it.printStackTrace() }
         ))
+    }
+
+    override fun onBackPressed() {
+        launchActivity(MainActivity::class)
+        super.onBackPressed()
     }
 }
