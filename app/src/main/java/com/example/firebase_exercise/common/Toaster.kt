@@ -1,4 +1,4 @@
-package com.example.firebase_exercise.events
+package com.example.firebase_exercise.common
 
 import android.content.Context
 import android.widget.Toast

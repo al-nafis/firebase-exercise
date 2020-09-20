@@ -1,4 +1,4 @@
-package com.example.firebase_exercise
+package com.example.firebase_exercise.common
 
 import com.google.firebase.database.DatabaseError
 
