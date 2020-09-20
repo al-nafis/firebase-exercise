@@ -16,7 +16,7 @@
         <activity android:name=".sign_in.SignInActivity" />
         <activity android:name=".movie_viewer.MovieViewerActivity" />
         <activity android:name=".add_movie.AddMovieActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

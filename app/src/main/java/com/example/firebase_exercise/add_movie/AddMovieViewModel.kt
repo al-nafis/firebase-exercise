@@ -3,9 +3,9 @@ package com.example.firebase_exercise.add_movie
 import androidx.databinding.ObservableField
 import com.example.firebase_exercise.BaseViewModel
 import com.example.firebase_exercise.data.Movie
-import com.example.firebase_exercise.events.Toaster
-import com.example.firebase_exercise.FirebaseManager
-import com.example.firebase_exercise.MoviesDataCallBack
+import com.example.firebase_exercise.common.Toaster
+import com.example.firebase_exercise.common.FirebaseManager
+import com.example.firebase_exercise.common.MoviesDataCallBack
 import com.google.firebase.database.DatabaseError
 import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject

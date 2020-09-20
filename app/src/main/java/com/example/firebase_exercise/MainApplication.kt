@@ -17,7 +17,11 @@ class MainApplication : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerMainApplicationComponent.builder().contextModule(ContextModule(this)).build().inject(this)
+        DaggerMainApplicationComponent
+            .builder()
+            .contextModule(ContextModule(this))
+            .build()
+            .inject(this)
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = activityInjector

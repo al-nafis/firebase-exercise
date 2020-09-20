@@ -1,4 +1,4 @@
-package com.example.firebase_exercise
+package com.example.firebase_exercise.common
 
 import android.content.SharedPreferences
 import androidx.annotation.StringDef
@@ -17,10 +17,14 @@ class SharedPrefUtil @Inject constructor(private val sharedPreferences: SharedPr
     }
 
     fun setUser(user: String) = setString(USER, user)
-    fun getUser() : String = getString(USER, ANONYMOUS)
+    fun getUser(): String = getString(USER, ANONYMOUS)
 
     private fun setString(@SharedPrefKey key: String, value: String) =
         sharedPreferences.edit().putString(key, value).apply()
-    private fun getString(@SharedPrefKey key: String, defaultValue: String = DEFAULT_VALUE): String =
+
+    private fun getString(
+        @SharedPrefKey key: String,
+        defaultValue: String = DEFAULT_VALUE
+    ): String =
         sharedPreferences.getString(key, defaultValue)!!
 }

@@ -1,4 +1,4 @@
-package com.example.firebase_exercise
+package com.example.firebase_exercise.common
 
 import com.example.firebase_exercise.dagger_components.MovieDatabase
 import com.example.firebase_exercise.data.Movie
@@ -9,8 +9,6 @@ class FirebaseManager @Inject constructor(
     @MovieDatabase private val databaseReference: DatabaseReference,
     private val sharedPrefUtil: SharedPrefUtil
 ) {
-
-    private fun String.getUserChild() = this.replace(Regex("[.#$\\[\\]]"), "")
 
     fun listenToMovieDataChange(listener: ValueEventListener) {
         databaseReference.child(sharedPrefUtil.getUser().getUserChild())
@@ -47,4 +45,6 @@ class FirebaseManager @Inject constructor(
                 }
             })
     }
+
+    private fun String.getUserChild() = this.replace(Regex("[.#$\\[\\]]"), "")
 }
