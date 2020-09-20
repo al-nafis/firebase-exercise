@@ -13,8 +13,12 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     dataBinding {
@@ -43,7 +47,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
 
     //dagger 2
-    implementation 'com.google.dagger:dagger:2.24'
+    implementation 'com.google.dagger:dagger:2.27'
     kapt 'com.google.dagger:dagger-compiler:2.21'
     implementation 'com.google.dagger:dagger-android:2.21'
     kapt 'com.google.dagger:dagger-android-processor:2.21'
@@ -51,8 +55,9 @@ dependencies {
 
     //firebase
     implementation 'com.google.firebase:firebase-database-ktx:19.4.0'
-    implementation 'com.google.firebase:firebase-auth-ktx:19.3.2'
+    implementation 'com.google.firebase:firebase-auth-ktx:19.4.0'
     implementation 'com.google.firebase:firebase-database:19.4.0'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
 
     //rx kotlin
     implementation 'io.reactivex.rxjava3:rxkotlin:3.0.0'
