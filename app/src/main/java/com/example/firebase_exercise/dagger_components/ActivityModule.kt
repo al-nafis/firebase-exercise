@@ -1,8 +1,8 @@
 package com.example.firebase_exercise.dagger_components
 
 import com.example.firebase_exercise.MainActivity
-import com.example.firebase_exercise.regular_database.add_user.RegularAddUserActivity
-import com.example.firebase_exercise.regular_database.viewer.RegularUserViewerActivity
+import com.example.firebase_exercise.add_movie.AddMovieActivity
+import com.example.firebase_exercise.movie_viewer.MovieViewerActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -12,8 +12,8 @@ abstract class ActivityModule {
     abstract fun providesMainActivity(): MainActivity
 
     @ContributesAndroidInjector
-    abstract fun providesRegularAddUserActivity(): RegularAddUserActivity
+    abstract fun providesAddMovieActivity(): AddMovieActivity
 
     @ContributesAndroidInjector
-    abstract fun providesRegularUserViewerActivity(): RegularUserViewerActivity
+    abstract fun providesMovieViewerActivity(): MovieViewerActivity
 }

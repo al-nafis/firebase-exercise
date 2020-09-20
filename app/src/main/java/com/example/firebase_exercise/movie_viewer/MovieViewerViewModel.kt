@@ -1,13 +1,11 @@
-package com.example.firebase_exercise.regular_database.viewer
+package com.example.firebase_exercise.movie_viewer
 
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.firebase_exercise.BaseViewModel
-import com.example.firebase_exercise.data.User
+import com.example.firebase_exercise.data.Movie
 import com.example.firebase_exercise.events.Toaster
-import com.example.firebase_exercise.regular_database.FirebaseManager
-import com.example.firebase_exercise.regular_database.UsersDataCallBack
+import com.example.firebase_exercise.FirebaseManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.GenericTypeIndicator
@@ -15,13 +13,13 @@ import com.google.firebase.database.ValueEventListener
 import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
-class RegularUserViewerViewModel @Inject constructor(
+class MovieViewerViewModel @Inject constructor(
     private val manager: FirebaseManager,
     private val toaster: Toaster,
-    val adapter: UserViewerAdapter
+    val adapter: MovieViewerAdapter
 ) : BaseViewModel() {
 
-    val addUserScreenLaunchOrderChannel: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
+    val addMovieScreenLaunchOrderChannel: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
 
     private val listener = object : ValueEventListener {
         override fun onCancelled(error: DatabaseError) {
@@ -30,21 +28,21 @@ class RegularUserViewerViewModel @Inject constructor(
 
         override fun onDataChange(snapshot: DataSnapshot) {
             if (snapshot.exists()) {
-                val t: GenericTypeIndicator<Map<String, User>> =
-                    object : GenericTypeIndicator<Map<String, User>>() {}
-                val map = snapshot.getValue(t) as Map<String, User>
-                val users = mutableListOf<User>()
-                for (user in map.values) {
-                    users.add(user)
+                val t: GenericTypeIndicator<Map<String, Movie>> =
+                    object : GenericTypeIndicator<Map<String, Movie>>() {}
+                val map = snapshot.getValue(t) as Map<String, Movie>
+                val movies = mutableListOf<Movie>()
+                for (movie in map.values) {
+                    movies.add(movie)
                 }
-                adapter.setUsers(users.sortedBy { it.name })
+                adapter.setMovies(movies.sortedBy { it.title })
             }
         }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onResume() {
-        manager.listenToUserDataChange(listener)
+        manager.listenToMovieDataChange(listener)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
@@ -52,5 +50,5 @@ class RegularUserViewerViewModel @Inject constructor(
         manager.removeListener(listener)
     }
 
-    fun addNewUser() = addUserScreenLaunchOrderChannel.onNext(true)
+    fun addNewMovie() = addMovieScreenLaunchOrderChannel.onNext(true)
 }

@@ -9,11 +9,11 @@ import javax.inject.Qualifier
 @Module
 class SharedModule {
     @Provides
-    @UserDatabase
-    fun provideUsersFirebaseDatabase(): DatabaseReference =
-        FirebaseDatabase.getInstance().getReference("users")
+    @MovieDatabase
+    fun provideMoviesFirebaseDatabase(): DatabaseReference =
+        FirebaseDatabase.getInstance().getReference("movies")
 }
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class UserDatabase
+annotation class MovieDatabase

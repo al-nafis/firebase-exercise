@@ -4,8 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.firebase_exercise.databinding.ActivityMainBinding
-import com.example.firebase_exercise.regular_database.add_user.RegularAddUserActivity
-import com.example.firebase_exercise.regular_database.viewer.RegularUserViewerActivity
+import com.example.firebase_exercise.movie_viewer.MovieViewerActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainActivity : BaseActivity() {
@@ -19,7 +18,7 @@ class MainActivity : BaseActivity() {
     override fun getDisposable(): CompositeDisposable =
         CompositeDisposable()
 
-    fun launchRegularDatabase() {
-        startActivity(Intent(this, RegularUserViewerActivity::class.java))
+    fun launchMovieDatabase() {
+        startActivity(Intent(this, MovieViewerActivity::class.java))
     }
 }
