@@ -1,4 +1,4 @@
-package com.example.firebase_exercise.data
+package com.example.firebase_exercise.models
 
 import com.google.firebase.database.IgnoreExtraProperties
 
