@@ -5,11 +5,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import com.example.firebase_exercise.BaseActivity
-import com.example.firebase_exercise.LauncherActivity
 import com.example.firebase_exercise.R
-import com.example.firebase_exercise.databinding.ActivityMovieViewerBinding
 import com.example.firebase_exercise.add_movie.AddMovieActivity
-import com.example.firebase_exercise.common.SharedPrefUtil
+import com.example.firebase_exercise.databinding.ActivityMovieViewerBinding
 import com.example.firebase_exercise.sign_in.SignInActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy

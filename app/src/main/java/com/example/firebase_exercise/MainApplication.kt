@@ -2,7 +2,6 @@ package com.example.firebase_exercise
 
 import android.app.Activity
 import android.app.Application
-import com.example.firebase_exercise.dagger_components.ApplicationContext
 import com.example.firebase_exercise.dagger_components.ContextModule
 import com.example.firebase_exercise.dagger_components.DaggerMainApplicationComponent
 import dagger.android.AndroidInjector

@@ -3,7 +3,7 @@ package com.example.firebase_exercise.movie_viewer
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.firebase_exercise.data.Movie
+import com.example.firebase_exercise.models.Movie
 import com.example.firebase_exercise.databinding.MovieInfoItemViewBinding
 import javax.inject.Inject
 

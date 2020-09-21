@@ -4,7 +4,7 @@
     <data>
         <variable
             name="movie"
-            type="com.example.firebase_exercise.data.Movie" />
+            type="com.example.firebase_exercise.models.Movie" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
