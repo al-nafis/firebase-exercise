@@ -23,14 +23,7 @@ class MovieViewerViewModel @Inject constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onResume() {
         addDisposable(manager.getMovieDataObservable().subscribeBy(
-            onNext = {
-                if (it.exists()) {
-                    val t: GenericTypeIndicator<Map<String, Movie>> =
-                        object : GenericTypeIndicator<Map<String, Movie>>() {}
-                    val movies = it.getValue(t) as Map<String, Movie>
-                    adapter.setMovies(movies.values.sortedBy { movie -> movie.title })
-                }
-            },
+            onNext = { adapter.setMovies(it.sortedBy { movie -> movie.title }) },
             onError = { it.printStackTrace() }
         ))
     }

@@ -25,7 +25,7 @@ class FirebaseManager @Inject constructor(
 
     fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
 
-    fun getMovieDataObservable(): Observable<DataSnapshot> =
+    fun getMovieDataObservable(): Observable<List<Movie>> =
         Observable.create<DataSnapshot> {
             databaseReference.child(firebaseAuth.currentUser!!.email!!.getUserChild())
                 .addValueEventListener(object : ValueEventListener {
@@ -35,6 +35,15 @@ class FirebaseManager @Inject constructor(
                         it.onNext(snapshot)
                     }
                 })
+        }.map {
+            if (it.exists()) {
+                val t: GenericTypeIndicator<Map<String, Movie>> =
+                    object : GenericTypeIndicator<Map<String, Movie>>() {}
+                val map = it.getValue(t) as Map<String, Movie>
+                map.values.toList()
+            } else {
+                listOf()
+            }
         }.addSchedulers()
 
     fun addMovie(newMovie: Movie): Completable = Completable.create { emitter ->
