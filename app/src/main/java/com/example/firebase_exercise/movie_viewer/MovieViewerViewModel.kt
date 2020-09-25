@@ -5,8 +5,6 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.example.firebase_exercise.BaseViewModel
 import com.example.firebase_exercise.common.FirebaseManager
 import com.example.firebase_exercise.common.Toaster
-import com.example.firebase_exercise.models.Movie
-import com.google.firebase.database.GenericTypeIndicator
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject

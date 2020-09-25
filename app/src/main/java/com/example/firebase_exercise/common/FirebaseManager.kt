@@ -13,6 +13,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.CompletableEmitter
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
@@ -26,56 +27,50 @@ class FirebaseManager @Inject constructor(
     fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
 
     fun getMovieDataObservable(): Observable<List<Movie>> =
-        Observable.create<DataSnapshot> {
-            databaseReference.child(firebaseAuth.currentUser!!.email!!.getUserChild())
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {}
-
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        it.onNext(snapshot)
-                    }
-                })
-        }.map {
-            if (it.exists()) {
-                val t: GenericTypeIndicator<Map<String, Movie>> =
-                    object : GenericTypeIndicator<Map<String, Movie>>() {}
-                val map = it.getValue(t) as Map<String, Movie>
-                map.values.toList()
-            } else {
-                listOf()
-            }
-        }.addSchedulers()
-
-    fun addMovie(newMovie: Movie): Completable = Completable.create { emitter ->
-        databaseReference.child(firebaseAuth.currentUser!!.email!!.getUserChild())
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+        Observable.create<DataSnapshot> { emitter ->
+            object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
-                    emitter.onError(error.toException())
+                    emitter.onComplete()
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        val t: GenericTypeIndicator<Map<String, Movie>> =
-                            object : GenericTypeIndicator<Map<String, Movie>>() {}
-                        val map = snapshot.getValue(t) as Map<String, Movie>
-                        for (movie in map.values) {
-                            if (movie.title == newMovie.title && movie.year == newMovie.year) {
-                                emitter.onError(MovieExistenceException())
-                                return
-                            }
+                    emitter.onNext(snapshot)
+                }
+            }.apply {
+                firebaseAuth.currentUser?.let { user ->
+                    user.email?.let { userEmail ->
+                        databaseReference.child(userEmail.convertToFirebaseChildString())
+                            .addValueEventListener(this)
+                        emitter.setCancellable {
+                            databaseReference.child(userEmail.convertToFirebaseChildString())
+                                .removeEventListener(this)
                         }
                     }
-                    databaseReference.child(firebaseAuth.currentUser!!.email!!.getUserChild())
-                        .push().setValue(newMovie)
-                        .addOnSuccessListener {
-                            emitter.onComplete()
-                        }
-                        .addOnFailureListener {
-                            it.printStackTrace()
-                            emitter.onError(MovieAddingFailedException())
-                        }
                 }
-            })
+            }
+        }.map { it.getMovieList() }.addSchedulers()
+
+
+    fun addNewMovie(newMovie: Movie): Completable = Completable.create { emitter ->
+        firebaseAuth.currentUser?.let { currentUser ->
+            currentUser.email?.let { userEmail ->
+                databaseReference.child(userEmail.convertToFirebaseChildString())
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            emitter.onError(error.toException())
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.movieExists(newMovie)) {
+                                emitter.onError(MovieExistenceException())
+                            } else {
+                                insertMovie(userEmail, newMovie, emitter)
+                            }
+                        }
+                    })
+            }
+        }
+
     }.addSchedulers()
 
     fun signInToFirebaseWithGoogle(data: Intent): Completable =
@@ -108,7 +103,38 @@ class FirebaseManager @Inject constructor(
             }
         }.addSchedulers()
 
-    private fun String.getUserChild() = this.replace(Regex("[.#$\\[\\]]"), "")
+    private fun insertMovie(userEmail: String, movie: Movie, emitter: CompletableEmitter) {
+        databaseReference.child(userEmail.convertToFirebaseChildString())
+            .push().setValue(movie)
+            .addOnSuccessListener {
+                emitter.onComplete()
+            }
+            .addOnFailureListener {
+                emitter.onError(MovieAddingFailedException())
+            }
+    }
+
+    private fun DataSnapshot.movieExists(newMovie: Movie): Boolean {
+        for (movie in getMovieList()) {
+            if (movie.title == newMovie.title && movie.year == newMovie.year) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun DataSnapshot.getMovieList(): List<Movie> {
+        return if (exists()) {
+            val t: GenericTypeIndicator<Map<String, Movie>> =
+                object : GenericTypeIndicator<Map<String, Movie>>() {}
+            val map = getValue(t) as Map<String, Movie>
+            map.values.toList()
+        } else {
+            listOf()
+        }
+    }
+
+    private fun String.convertToFirebaseChildString() = this.replace(Regex("[.#$\\[\\]]"), "")
     private fun Completable.addSchedulers(): Completable =
         this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 

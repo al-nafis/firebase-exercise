@@ -1,10 +1,9 @@
-package com.example.firebase_exercise.sign_in
+package com.example.firebase_exercise
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import com.example.firebase_exercise.BaseActivity
-import com.example.firebase_exercise.R
+import com.example.firebase_exercise.common.FirebaseManager
 import com.example.firebase_exercise.common.Toaster
 import com.example.firebase_exercise.databinding.ActivitySignInBinding
 import com.example.firebase_exercise.movie_viewer.MovieViewerActivity
@@ -15,30 +14,39 @@ import javax.inject.Inject
 class SignInActivity : BaseActivity() {
 
     @Inject
-    lateinit var viewModel: SignInViewModel
+    lateinit var firebaseManager: FirebaseManager
 
     @Inject
     lateinit var toaster: Toaster
+
+    private val RC_SIGN_IN = 9001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivitySignInBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
-        binding.model = viewModel
+        binding.activity = this
+    }
+
+    fun signInWithGoogle() {
+        startActivityForResult(firebaseManager.googleSignInClient.signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        viewModel.onSignInRequest(requestCode, data)
+        if (requestCode == RC_SIGN_IN && data != null) {
+            firebaseManager.signInToFirebaseWithGoogle(data)
+                .subscribeBy(
+                    onComplete = { launchMovieViewer() },
+                    onError = { toaster.toast(it.message.toString()) }
+                )
+        }
     }
 
-    override fun getDisposable(): CompositeDisposable = CompositeDisposable().apply {
-        add(viewModel.signInAttemptInitializerChannel.subscribeBy {
-            startActivityForResult(it.first.signInIntent, it.second)
-        })
-        add(viewModel.signInCompleteNotifierChannel.subscribeBy {
-            launchActivity(MovieViewerActivity::class)
-            finish()
-        })
+    private fun launchMovieViewer() {
+        launchActivity(MovieViewerActivity::class)
+        finish()
     }
+
+    override fun getDisposable(): CompositeDisposable = CompositeDisposable()
 }
