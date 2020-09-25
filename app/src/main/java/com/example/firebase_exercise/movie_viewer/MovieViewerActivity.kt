@@ -8,7 +8,7 @@ import com.example.firebase_exercise.BaseActivity
 import com.example.firebase_exercise.R
 import com.example.firebase_exercise.add_movie.AddMovieActivity
 import com.example.firebase_exercise.databinding.ActivityMovieViewerBinding
-import com.example.firebase_exercise.sign_in.SignInActivity
+import com.example.firebase_exercise.SignInActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javax.inject.Inject
