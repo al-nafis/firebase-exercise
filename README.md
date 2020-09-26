@@ -1,5 +1,5 @@
 # firebase-exercise
 
-This is just an Android Firebase Exercise
+This is an Android Firebase Exercise
 
-A very basic implementation of User Authentication, Data storing and retrieving using RxKotlin
+A basic implementation of User Authentication, Data storing and retrieving from Realtime Database and Firestore using RxKotlin
