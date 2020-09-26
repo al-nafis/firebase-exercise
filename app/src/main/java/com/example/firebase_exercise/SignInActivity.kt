@@ -3,10 +3,9 @@ package com.example.firebase_exercise
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import com.example.firebase_exercise.common.FirebaseManager
+import com.example.firebase_exercise.common.FirebaseAuthManager
 import com.example.firebase_exercise.common.Toaster
 import com.example.firebase_exercise.databinding.ActivitySignInBinding
-import com.example.firebase_exercise.movie_viewer.MovieViewerActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javax.inject.Inject
@@ -14,7 +13,7 @@ import javax.inject.Inject
 class SignInActivity : BaseActivity() {
 
     @Inject
-    lateinit var firebaseManager: FirebaseManager
+    lateinit var firebaseAuthManager: FirebaseAuthManager
 
     @Inject
     lateinit var toaster: Toaster
@@ -29,13 +28,13 @@ class SignInActivity : BaseActivity() {
     }
 
     fun signInWithGoogle() {
-        startActivityForResult(firebaseManager.googleSignInClient.signInIntent, RC_SIGN_IN)
+        startActivityForResult(firebaseAuthManager.googleSignInClient.signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN && data != null) {
-            firebaseManager.signInToFirebaseWithGoogle(data)
+            firebaseAuthManager.signInToFirebaseWithGoogle(data)
                 .subscribeBy(
                     onComplete = { launchMovieViewer() },
                     onError = { toaster.toast(it.message.toString()) }
@@ -44,7 +43,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun launchMovieViewer() {
-        launchActivity(MovieViewerActivity::class)
+        launchActivity(MainActivity::class)
         finish()
     }
 

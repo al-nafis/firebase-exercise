@@ -25,6 +25,12 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     fun launchActivity(destination: KClass<out BaseActivity>) {
         startActivity(Intent(this, destination.java))
+        overridePendingTransition(R.anim.enter, R.anim.exit)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.on_press_back_enter, R.anim.on_press_back_exit)
     }
 
     abstract fun getDisposable(): CompositeDisposable

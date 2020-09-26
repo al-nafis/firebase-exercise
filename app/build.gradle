@@ -58,6 +58,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:19.4.0'
     implementation 'com.google.firebase:firebase-database:19.4.0'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.6.0'
 
     //rx kotlin
     implementation 'io.reactivex.rxjava3:rxkotlin:3.0.0'

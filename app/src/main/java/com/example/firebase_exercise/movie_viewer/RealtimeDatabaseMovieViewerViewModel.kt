@@ -3,26 +3,24 @@ package com.example.firebase_exercise.movie_viewer
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.firebase_exercise.BaseViewModel
-import com.example.firebase_exercise.common.FirebaseManager
+import com.example.firebase_exercise.common.FirebaseAuthManager
+import com.example.firebase_exercise.common.RealtimeDatabaseManager
 import com.example.firebase_exercise.common.Toaster
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
-class MovieViewerViewModel @Inject constructor(
-    private val manager: FirebaseManager,
-    private val toaster: Toaster,
+class RealtimeDatabaseMovieViewerViewModel @Inject constructor(
+    private val realtimeDatabaseManager: RealtimeDatabaseManager,
     val adapter: MovieViewerAdapter
 ) : BaseViewModel() {
 
     val addMovieScreenLaunchOrderChannel: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
-    val signOutOrderChannel: PublishSubject<Boolean> = PublishSubject.create()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onResume() {
-        addDisposable(manager.getMovieDataObservable().subscribeBy(
-            onNext = { adapter.setMovies(it.sortedBy { movie -> movie.title }) },
-            onError = { it.printStackTrace() }
+        addDisposable(realtimeDatabaseManager.getMovieDataObservable().subscribeBy(
+            onNext = { adapter.setMovies(it.sortedBy { movie -> movie.title }) }
         ))
     }
 
@@ -32,11 +30,4 @@ class MovieViewerViewModel @Inject constructor(
     }
 
     fun addNewMovie() = addMovieScreenLaunchOrderChannel.onNext(true)
-
-    fun onClickSignOut() {
-        manager.userSignOut().subscribeBy(
-            onComplete = { signOutOrderChannel.onNext(true) },
-            onError = { toaster.toast(it.message.toString()) }
-        )
-    }
 }
