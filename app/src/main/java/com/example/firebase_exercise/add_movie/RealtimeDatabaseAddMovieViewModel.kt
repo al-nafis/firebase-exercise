@@ -2,15 +2,15 @@ package com.example.firebase_exercise.add_movie
 
 import androidx.databinding.ObservableField
 import com.example.firebase_exercise.BaseViewModel
-import com.example.firebase_exercise.common.FirebaseManager
+import com.example.firebase_exercise.common.RealtimeDatabaseManager
 import com.example.firebase_exercise.common.Toaster
 import com.example.firebase_exercise.models.Movie
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
-class AddMovieViewModel @Inject constructor(
-    private val firebaseManager: FirebaseManager,
+class RealtimeDatabaseAddMovieViewModel @Inject constructor(
+    private val realtimeDatabaseManager: RealtimeDatabaseManager,
     private val toaster: Toaster
 ) : BaseViewModel() {
 
@@ -25,7 +25,7 @@ class AddMovieViewModel @Inject constructor(
                 if (title.isEmpty() || year.isEmpty()) {
                     toaster.toast("All fields required!")
                 } else {
-                    addDisposable(firebaseManager.addNewMovie(Movie(title, year))
+                    addDisposable(realtimeDatabaseManager.addNewMovie(Movie(title, year))
                         .subscribeBy(
                             onComplete = {
                                 toaster.toast("New Movie Added")

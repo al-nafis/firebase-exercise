@@ -1,7 +1,6 @@
 package com.example.firebase_exercise.dagger_components
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.example.firebase_exercise.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -9,21 +8,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
-import javax.inject.Qualifier
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class MovieDatabase
 
 @Module
 class SharedModule {
 
     @Provides
-    @MovieDatabase
     fun provideMoviesFirebaseDatabase(): DatabaseReference =
-        FirebaseDatabase.getInstance().getReference("movies")
+        FirebaseDatabase.getInstance().reference
+
+    @Provides
+    fun providesMoviesFirestoreDatabase(): CollectionReference =
+        Firebase.firestore.collection("users")
 
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()

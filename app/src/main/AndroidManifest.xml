@@ -13,9 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".add_movie.FirestoreAddMovieActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".movie_viewer.FirestoreMovieViewerActivity" />
         <activity android:name=".SignInActivity" />
-        <activity android:name=".movie_viewer.MovieViewerActivity" />
-        <activity android:name=".add_movie.AddMovieActivity" />
+        <activity android:name=".movie_viewer.RealtimeDatabaseMovieViewerActivity" />
+        <activity android:name=".add_movie.RealtimeDatabaseAddMovieActivity" />
         <activity android:name=".LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
